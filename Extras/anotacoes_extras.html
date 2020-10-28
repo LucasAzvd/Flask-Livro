@@ -1,0 +1,29 @@
+{% if name %}
+<h1>Hello {{ name|capitalize }}!</h1>
+{% else %}
+<h1>Hello Stranger</h1>
+{% endif %}
+
+<ul>
+    {% for comment in comments %}
+        <li>{{ comment }}</li>
+    {% endfor %}
+</ul>
+
+<!-- Macros são funções do python -->
+{% macro render_comment(comment) %}
+    <li>{{ comment }}</li>
+{% endmacro %}
+
+<ul>
+    {% for comment in comments %}
+        {{ render_comment(comment) }}
+    {% endfor %}
+</ul>
+
+{% import 'macros.html' as macros %}
+<ul>
+    {% for comment in comments %}
+        {{ render_comment(comment) }}
+    {% endfor %}
+</ul>
