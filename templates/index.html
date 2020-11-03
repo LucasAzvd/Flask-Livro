@@ -9,6 +9,11 @@
     <p>São {{ moment(current_time).fromNow(refresh=True)}}</p>
     <div class="page-header">
         <h1>Salve, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+        {% if not known %}
+        <p> `Primeira vez aqui em!</p>
+        {% else %}
+        <p>Bem-vindo de volta</p>
+        {% endif %}
     </div>
     {{ wtf.quick_form(form) }}
 {% endblock %}
