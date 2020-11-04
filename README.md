@@ -60,4 +60,16 @@ flash("SUA MENSAGEM")
 #### Capítulo 5 - Banco de Dados
 Trata sobre como utilizar banco de dados e escolher com quais ferramentas manusea-los. Observando diversos pontos, a escolha ficou pelo **Flask Sql-Alchemy** e para conectar com um banco de dados mysql utiliza o seguinte padrão:
 `mysql://username:password@hostname/database`  
-No Sql_alchemy existem _session_'s que são as transactions do SQL, ou seja, elas precisam de commit para serem finalizadas e possuem roolback para voltar atrás.
+No Sql_alchemy existem _session_'s que são as transactions do SQL, ou seja, elas precisam de commit para serem finalizadas e possuem roolback para voltar atrás.  
+
+Para poder trabalhar com novas tabelas, o flask trabalha destruindo a existente e construindo uma nova, para evitar perdas de dados é necessário usar instâncias de migração, utilizaremos o `flask-migrate`. Ele cria automaticamente a migração, porém é necessário sempre conferir pois em casos que o nome da coluna seja atualizado ele não entenda a atualização e simq ue foi criada uma nova coluna por exemplo.  
+Utilizamos os seguintes comandos para migração: 
+1. `flask db init`
+2. `flask db -m "MENSAGEM"`
+3. Revisa as modificações
+4. `flask db upgrade` ou `flask db downgrade`(Remove última migração) 
+
+Caso já existe o banco de dados, assinale ele como atual usando `flask db stamp`.
+
+#### Capítulo 6 - Email
+Trata de como trabalhar com e-mail no flask utilizando o `flask-mail`.

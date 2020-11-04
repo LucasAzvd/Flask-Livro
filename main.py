@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
+from flask_migrate import Migrate
+from flask_mail import Mail
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
@@ -14,10 +16,17 @@ app.config['SECRET_KEY'] = "admin"
 app.config['SQLALCHEMY_DATABASE_URI'] =\
     'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USER_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+mail = Mail(app)
 
 class NameForm(FlaskForm):
     name = StringField("Wha is your name?", validators=[DataRequired()]) # Este validators apenas deixa que o campo é obrigatório
@@ -38,6 +47,10 @@ class User(db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     def __repr__(self):
         return '<User %r>' % self.username
+
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User, Role=Role)
 
 @app.errorhandler(404)
 def page_not_found(e):
