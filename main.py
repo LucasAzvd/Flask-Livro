@@ -1,5 +1,6 @@
 import os 
 from datetime import datetime
+from threading import Thread
 from flask import Flask, render_template, session, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
@@ -18,9 +19,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] =\
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USER_TLS'] = True
+app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = '[Flasky]'
+app.config['FLASKY_MAIL_SENDER'] = 'lucas5522@hotmail.com'
+app.config['FLASKY_ADMIN'] = os.environ.get('FLASKY_ADMIN')
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -48,6 +52,15 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+def send_email(to, subject, template, **kwargs):
+    msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + subject,
+                    sender = app.config['FLASKY_MAIL_SENDER'], recipients=[to])
+    msg.body = render_template(template + '.txt', **kwargs)
+    msg.html = render_template(template + '.html', **kwargs)
+    thr = Thread(target=send_async_email, args=[app, msg])
+    the.start()
+    return thr
+
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Role=Role)
@@ -71,6 +84,9 @@ def index():
             db.session.commit()
             session['known'] = False
             #flash("Novo nome!")
+            if app.config['FLASKY_ADMIN']:
+                send_email(app.config['FLASKY_ADMIN'], 'Novo Usuário',
+                            'mail/new_user', user=user)
         else:
             session['known'] = True
         session['name'] = form.name.data

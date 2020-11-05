@@ -57,7 +57,7 @@ flash("SUA MENSAGEM")
 
 ---
 
-#### Capítulo 5 - Banco de Dados
+### Capítulo 5 - Banco de Dados
 Trata sobre como utilizar banco de dados e escolher com quais ferramentas manusea-los. Observando diversos pontos, a escolha ficou pelo **Flask Sql-Alchemy** e para conectar com um banco de dados mysql utiliza o seguinte padrão:
 `mysql://username:password@hostname/database`  
 No Sql_alchemy existem _session_'s que são as transactions do SQL, ou seja, elas precisam de commit para serem finalizadas e possuem roolback para voltar atrás.  
@@ -71,5 +71,13 @@ Utilizamos os seguintes comandos para migração:
 
 Caso já existe o banco de dados, assinale ele como atual usando `flask db stamp`.
 
-#### Capítulo 6 - Email
-Trata de como trabalhar com e-mail no flask utilizando o `flask-mail`.
+---
+
+### Capítulo 6 - Email
+Trata de como trabalhar com e-mail no flask utilizando o `flask-mail`.  
+Além de trabalhar o envio do e-mail, focou-se em como evitar atrasos no envio, rodando o e-mail em segundo plano por uma **thread**. Esse "atraso" gerado pelo flask é devido ele rodar em um contexto, sempre no current_app.  
+
+---
+
+### Capítulo 7 - Estrutura da Aplicação
+Conforme a aplicação cresça, sua estrutura em um único arquivo se torna inviável, então a transformação dessa estrutura em uma padrão será ensinada nesse capítulo.
