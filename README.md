@@ -80,4 +80,14 @@ Além de trabalhar o envio do e-mail, focou-se em como evitar atrasos no envio, 
 ---
 
 ### Capítulo 7 - Estrutura da Aplicação
-Conforme a aplicação cresça, sua estrutura em um único arquivo se torna inviável, então a transformação dessa estrutura em uma padrão será ensinada nesse capítulo.
+Conforme a aplicação cresça, sua estrutura em um único arquivo se torna inviável, então a transformação dessa estrutura em uma padrão será ensinada nesse capítulo.  
+Um grande desafio na separação do código é como separar as rotas, para solucionar esse desafio o flask possui uma solução chamada **Blueprint** que nela você consegue armazenar handle de erros e rotas da aplicação, é necessário defini-lo em seu arquivo main e na própria pasta main.  
+Observação: o uso de `app_errohandler` ao invés de `errohandler` torna o erro capturado globalmente, enquando _errohandler_ seria chamado apenas em rotas definidas pelo blueprint.  
+Informação importante é a construção do arquivo **config.py** que define em qual ambiente está rodando a aplicação.
+
+---
+
+### Capítulo 8 - Autenticação do Usuário
+O segredo das autenticações são as senhas que são guardadas com hash. Para se utilizar geralmente opta-se por bibliotecas, pois implementar manualmente é muito complexo e a criticidade de manter seguro é muito importante.  
+
+Para criação do Hash utilizaremos o **Werkzeug**.
