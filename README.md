@@ -91,3 +91,8 @@ Informação importante é a construção do arquivo **config.py** que define em
 O segredo das autenticações são as senhas que são guardadas com hash. Para se utilizar geralmente opta-se por bibliotecas, pois implementar manualmente é muito complexo e a criticidade de manter seguro é muito importante.  
 
 Para criação do Hash utilizaremos o **Werkzeug**.
+Para guardar o estado da autenticação utilizaremos **flask-login**. Ela é iniciada junto ao aplicativo e acessa o banco de dados para obter o id do usuário. E para evitar acessos de usuário sem login se utiliza `@login_required` na rota.  
+
+O flask-login guarda dados de login no cook, se quiser alterar o tempo default de 1 ano, só passar item opcional de `REMEMBER_COOKIE_DURATION` no __login_user__.  
+
+É bom se criar um token para confirmação do e-mail, para isso utiliza-se a biblioteca `itsdangerous`.

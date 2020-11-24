@@ -5,6 +5,13 @@ from ..email import send_email
 from . import main
 from .forms import NameForm
 from datetime import datetime
+from flask_login import login_required, logout_user
+
+
+@main.route('/secret')
+@login_required
+def secret():
+    return "Apenas para usuários autenticados!"
 
 @main.route('/', methods=['GET', 'POST']) # Primeira de requisição de acesso é Post
 def index():
