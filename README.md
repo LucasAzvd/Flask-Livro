@@ -95,4 +95,6 @@ Para guardar o estado da autenticação utilizaremos **flask-login**. Ela é ini
 
 O flask-login guarda dados de login no cook, se quiser alterar o tempo default de 1 ano, só passar item opcional de `REMEMBER_COOKIE_DURATION` no __login_user__.  
 
-É bom se criar um token para confirmação do e-mail, para isso utiliza-se a biblioteca `itsdangerous`.
+É bom se criar um token para confirmação do e-mail, para isso utiliza-se a biblioteca `itsdangerous`.  
+
+Além da criação do token temos que poder usa-lo no nosso programa, por isso criamos uma confirmação, tal confirmação é enviada por e-mail com um link com o token (tal token é o argumento de uma nova rota), que torna o usuário como confirmado no banco de dados.

@@ -1,0 +1,4 @@
+Opa {{ user.username }},
+Bem vindo!
+Confirma teu e-mail por favor:
+{{ url_for('auth.confirm', token=token, _extenal=True)}}
